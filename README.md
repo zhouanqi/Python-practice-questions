@@ -16,7 +16,7 @@
 
 在Lagou目录下生成data.csv文件 
 
-![data](https://github.com/TuYuWang/Lagou/result.png)
+![data](https://github.com/TuYuWang/Lagou/blob/master/result.png)
 
 
 ##### 版本
