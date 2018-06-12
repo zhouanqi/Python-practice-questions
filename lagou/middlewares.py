@@ -6,6 +6,13 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.by import By
+from scrapy.http import HtmlResponse
+from scrapy.http import Response
 
 
 class LagouSpiderMiddleware(object):
@@ -78,7 +85,37 @@ class LagouDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
+
+        #第一次请求获取总页数
+        if spider.start:
+
+            #配置无头参数
+            options = Options()
+            options.add_argument('--headless')
+
+            #使用火狐浏览器模拟请求
+            driver = webdriver.Firefox(firefox_options=options)
+            driver.get(request.url)
+           
+            #等待异步加载，直到获取到当前页，最多等待10秒
+            try:
+                element = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, 'pager_is_current'))
+                )
+                #获取所有非当前页的标签
+                elements = driver.find_elements_by_xpath("//span[@class='pager_not_current']")
+                
+                #最后一个非当前页为总页数
+                #读取出标签中内容
+                page_count = elements[-1].get_attribute('innerHTML')
+                
+                #得到总页数
+                spider.start = False
+                spider.page_count = page_count
+            finally:
+                driver.quit()
         return None
+
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
@@ -97,7 +134,9 @@ class LagouDownloaderMiddleware(object):
         # - return None: continue processing this exception
         # - return a Response object: stops process_exception() chain
         # - return a Request object: stops process_exception() chain
+        # yield request
         pass
+        
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)

@@ -18,3 +18,5 @@ class LagouItem(scrapy.Item):
     job_company = scrapy.Field()#公司
     job_company_type = scrapy.Field()#公司类型
     job_vip = scrapy.Field()	#公司福利
+    job_salary = scrapy.Field()
+    page = scrapy.Field()
