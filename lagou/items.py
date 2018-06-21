@@ -20,3 +20,4 @@ class LagouItem(scrapy.Item):
     job_vip = scrapy.Field()	#公司福利
     job_salary = scrapy.Field()
     page = scrapy.Field()
+    positionId = scrapy.Field()

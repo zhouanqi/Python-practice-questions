@@ -86,15 +86,11 @@ class LagouDownloaderMiddleware(object):
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
 
+        driver = spider.driver
+
         #第一次请求获取总页数
         if spider.start:
 
-            #配置无头参数
-            options = Options()
-            options.add_argument('--headless')
-
-            #使用火狐浏览器模拟请求
-            driver = webdriver.Firefox(firefox_options=options)
             driver.get(request.url)
            
             #等待异步加载，直到获取到当前页，最多等待10秒
@@ -112,8 +108,9 @@ class LagouDownloaderMiddleware(object):
                 #得到总页数
                 spider.start = False
                 spider.page_count = page_count
-            finally:
-                driver.quit()
+            finally: 
+                pass
+    
         return None
 
 

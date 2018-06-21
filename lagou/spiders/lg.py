@@ -2,6 +2,7 @@
 import scrapy
 from scrapy import Spider, Request
 from lagou.items import LagouItem
+import atlogin
 import lxml
 import json
 import time
@@ -10,16 +11,14 @@ import random
 
 class LgSpider(scrapy.Spider):
 
-    def __init__(self):
-        
-        #使用无头火狐获取总页数
-        self.start = True
+    #使用无头火狐获取总页数
+    start = True
 
-        #总页数
-        self.page_count = 0
+    #总页数
+    page_count = 0
 
-        #成功获取数据的页码
-        self.success_pages = []
+    #成功获取数据的页码
+    success_pages = []
 
     name = 'lg'
     allowed_domains = ['logou.com']
@@ -44,8 +43,12 @@ class LgSpider(scrapy.Spider):
     params = {
         'city': addrrKey.encode('utf-8'),
         'kd': carrerKey.encode('utf-8'),
-        'pn': '1'
+        'pn': '1',
+        'px': 'new', #按最新发布排序
     }
+
+    #自动登录，获取driver进行操作
+    driver = atlogin.aotulogin()
 
     def start_requests(self): 
 
@@ -66,7 +69,7 @@ class LgSpider(scrapy.Spider):
             yield scrapy.FormRequest(self.base_url, headers=self.headers, formdata=self.params, callback=self.parse, dont_filter=True)
             self.params['pn'] = str(page+1)
             # time.sleep(random.randint(8,20))
-            time.sleep(18)
+            time.sleep(13)
 
     def parse(self, response):
 
@@ -76,6 +79,8 @@ class LgSpider(scrapy.Spider):
 
         page = content['pageNo']
         self.success_pages.append(page)
+
+        print('success page: ', page)
         
         #解析数据，提取需要的数据
         results = content['positionResult']['result']
@@ -90,5 +95,6 @@ class LgSpider(scrapy.Spider):
             job['job_company_type'] = result['financeStage'] + '、' + result['industryField']
             job['job_vip']  = result['positionAdvantage']
             job['page']  = page
+            job['positionId'] = result['positionId']
             yield job
 

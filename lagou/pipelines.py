@@ -6,6 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pandas as pd
+import atlogin
 
 class LagouPipeline(object):
 
@@ -19,6 +20,7 @@ class LagouPipeline(object):
         self.vip = []
         self.salary = []
         self.page = []
+        self.positionId = []
 
     def process_item(self, item, spider):
         
@@ -31,21 +33,23 @@ class LagouPipeline(object):
         self.vip.append(item['job_vip'])   
         self.salary.append(item['job_salary'])
         self.page.append(item['page'])
-
+        self.positionId.append(item['positionId'])
     
     def close_spider(self, spider):
         data = pd.DataFrame({
-          '职位':self.name,
-          '薪水':self.salary,
-          '上班地址':self.addr,
-          '发布时间':self.time,
-          '任职资格':self.limit,
-          '公司名称':self.company,
-          '公司类型':self.type,
-          '福利待遇':self.vip,
+          'name':self.name,
+          'salary':self.salary,
+          'addr':self.addr,
+          'time':self.time,
+          'limit':self.limit,
+          'company':self.company,
+          'type':self.type,
+          'vip':self.vip,
           'page': self.page,
          })
         spider.success_pages.sort()
         print('success get data of page: ',spider.success_pages)
-
+        print('开始投递')
+        # atlogin.send_resume(spider.driver, self.positionId)
+        spider.driver.quit()
         data.to_csv('./result.csv')
