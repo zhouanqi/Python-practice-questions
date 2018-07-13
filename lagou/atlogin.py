@@ -18,7 +18,7 @@ def aotulogin():
     print('正在登录，请稍候...')
 
     optins = Options()
-    optins.add_argument('-headless')
+    # optins.add_argument('-headless')
 
     driver = webdriver.Firefox(firefox_options=optins)
     driver.get(url)
@@ -48,12 +48,11 @@ def aotulogin():
     try:
         #假如账号密码有误
         valid_msg = driver.find_element_by_xpath('//span[@data-valid-message=""]')
-        print(valid_msg.get_attribute('innerHTML'))
-        print('请在user.json中检查')
+        print(valid_msg.get_attribute('innerHTML') ,'user.json中检查配置')
         driver.quit()
         return
     except Exception as e:
-        pass
+        print(e)
         
     print('登录成功')
     return driver

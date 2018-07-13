@@ -13,6 +13,9 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from scrapy.http import HtmlResponse
 from scrapy.http import Response
+from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
+import random
+import os
 
 
 class LagouSpiderMiddleware(object):
@@ -86,30 +89,30 @@ class LagouDownloaderMiddleware(object):
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
 
-        driver = spider.driver
+        # driver = spider.driver
 
-        #第一次请求获取总页数
-        if spider.start:
+        # #第一次请求获取总页数
+        # if spider.start:
 
-            driver.get(request.url)
+        #     driver.get(request.url)
            
-            #等待异步加载，直到获取到当前页，最多等待10秒
-            try:
-                element = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CLASS_NAME, 'pager_is_current'))
-                )
-                #获取所有非当前页的标签
-                elements = driver.find_elements_by_xpath("//span[@class='pager_not_current']")
+        #     #等待异步加载，直到获取到当前页，最多等待10秒
+        #     try:
+        #         element = WebDriverWait(driver, 10).until(
+        #             EC.presence_of_element_located((By.CLASS_NAME, 'pager_is_current'))
+        #         )
+        #         #获取所有非当前页的标签
+        #         elements = driver.find_elements_by_xpath("//span[@class='pager_not_current']")
                 
-                #最后一个非当前页为总页数
-                #读取出标签中内容
-                page_count = elements[-1].get_attribute('innerHTML')
+        #         #最后一个非当前页为总页数
+        #         #读取出标签中内容
+        #         page_count = elements[-1].get_attribute('innerHTML')
                 
-                #得到总页数
-                spider.start = False
-                spider.page_count = page_count
-            finally: 
-                pass
+        #         #得到总页数
+        #         spider.start = False
+        #         spider.page_count = page_count
+        #     finally: 
+        #         pass
     
         return None
 
@@ -137,3 +140,34 @@ class LagouDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+proxy_list = open(os.getcwd()+'/ip.txt').readlines()
+
+class MyUserAgentMiddleware(UserAgentMiddleware):
+    '''
+    设置User-Agent
+    '''
+    refers = ['ios', 'python', 'andriod', 'html5', 'java']
+
+    def __init__(self, user_agent):
+        self.user_agent = user_agent
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            user_agent=crawler.settings.get('MY_USER_AGENT')
+        )
+
+    def process_request(self, request, spider):        
+        request.meta['proxy'] = 'http://%s' % random.choice(proxy_list)
+        agent = random.choice(self.user_agent)
+        r1 = random.choice(self.refers)
+        r2 = random.choice(self.refers)
+        refer = 'https://www.lagou.com/jobs/list_{}?oquery={}&fromSearch=true&labelWords=relative&city=%E6%B7%B1%E5%9C%B3'.format(r1, r2) 
+        request.headers['User-Agent'] = agent
+        request.headers['Referer'] = refer
+        print('User-Agent:' + agent)
+        print('Proxy:' + request.meta['proxy'].strip())
+        print('Referer:' + refer)
+
