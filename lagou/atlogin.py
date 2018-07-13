@@ -18,7 +18,7 @@ def aotulogin():
     print('正在登录，请稍候...')
 
     optins = Options()
-    # optins.add_argument('-headless')
+    optins.add_argument('-headless')
 
     driver = webdriver.Firefox(firefox_options=optins)
     driver.get(url)
