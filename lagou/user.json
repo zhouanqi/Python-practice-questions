@@ -1,8 +1,17 @@
 {
-	"lagou_user": "输入拉钩账号",
-	"lagou_psw": "输入拉钩密码",
+	"lagou_user": "18473011255",
+	"lagou_psw": "19950917",
 	"email_user": "发送的163邮箱账号",
 	"email_auth_psw": "163邮箱授权码",
-	"email_receiver": "接收邮箱账号",
+	"email_receiver": "接收邮箱账号"
 }
 
+//
+
+//http://dev.open.recency.cn/auth/authorize?
+//client_id=263a9ef3-702d-48a1-b50b-b89f770c9934&
+//grant_type=authorization_code&
+//redirect_uri=http%3A%2F%2Ftestoms.harsonserver.com%2Fai%2Fcallback&response_type=code&state=FOA3YjrKSg%2Bgaw7FzTBoPk5o2WA1aHvmAoXRwChMj%2Bio6ErLGyxe2HfJbioEXWdfGE2Qu5gYuET6%0AZrdDwB%2BZLdwh7cFdz7h%2FeVqJvaFO8yYnhslaNJwUT%2FlEmxoJeOJt7DykNrw45n1nR2HLBj3UtA%3D%3D&
+//username=tianhe1&
+//password=123&
+//display=pc

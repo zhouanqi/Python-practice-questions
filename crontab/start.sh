@@ -1,3 +1,3 @@
 #!/bin/bash
 
-open -a Terminal.app /Users/tuyuwang/Lagou/crawl.sh
+open -a Terminal.app F:/python/chonghcong/lagou/Lagou/crawl.sh

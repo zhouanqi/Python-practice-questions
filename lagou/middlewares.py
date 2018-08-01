@@ -141,8 +141,8 @@ class LagouDownloaderMiddleware(object):
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
-
-proxy_list = open(os.getcwd()+'/ip.txt').readlines()
+# F:\python\chonghcong\lagou\Lagou\lagou
+proxy_list = open('F:\\python\\chonghcong\\lagou\\Lagou\\lagou\\ip.txt').readlines()
 
 class MyUserAgentMiddleware(UserAgentMiddleware):
     '''

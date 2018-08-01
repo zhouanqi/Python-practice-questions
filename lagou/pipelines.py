@@ -6,7 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pandas as pd
-import atlogin
+from lagou import atlogin
 
 class LagouPipeline(object):
 

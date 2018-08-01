@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /Users/tuyuwang/Lagou/lagou
+cd F:/python/chonghcong/lagou/Lagou/
 
-python3 pool.py
+python pool.py

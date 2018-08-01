@@ -3,11 +3,11 @@
 import os
 
 try:
-    path = os.getcwd()+'/user.json'
-    file = open(path, 'r')
+    path = 'F:\\python\\chonghcong\\lagou\\Lagou\\lagou\\user.json'
+    file = open(path, 'rb')
     info = eval(file.read())
 except Exception as e:
-    print(os.getcwd(),'/user.json获取失败')
+    print(os.getcwd(),'\\user.json获取失败')
     raise 
 
 lagou_user = info['lagou_user']

@@ -2,7 +2,7 @@
 import scrapy
 from scrapy import Spider, Request
 from lagou.items import LagouItem
-from atlogin import aotulogin 
+from lagou.atlogin import aotulogin
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC 
 from selenium.webdriver.common.by import By
@@ -26,8 +26,8 @@ class LgSpider(scrapy.Spider):
     # addrrKey  = input("请输入地址:")
     # carrerKey = input("请输入岗位:")
 
-    addrrKey = "深圳"
-    carrerKey = "ios"
+    addrrKey = "广州"
+    carrerKey = "前端"
 
     #自动登录，获取driver进行操作
     driver = aotulogin()

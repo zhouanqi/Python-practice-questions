@@ -3,7 +3,7 @@
 
 import selenium
 import time
-import config
+from lagou import config
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
@@ -20,7 +20,7 @@ def aotulogin():
     optins = Options()
     optins.add_argument('-headless')
 
-    driver = webdriver.Firefox(firefox_options=optins)
+    driver = webdriver.Chrome(chrome_options=optins)
     driver.get(url)
 
     
@@ -45,14 +45,14 @@ def aotulogin():
 
     time.sleep(0.2)
 
-    try:
-        #假如账号密码有误
-        valid_msg = driver.find_element_by_xpath('//span[@data-valid-message=""]')
-        print(valid_msg.get_attribute('innerHTML') ,'user.json中检查配置')
-        driver.quit()
-        return
-    except Exception as e:
-        print(e)
+    # try:
+    #     #假如账号密码有误
+    #     valid_msg = driver.find_element_by_xpath('//span[@data-valid-message=""]')
+    #     print(valid_msg.get_attribute('innerHTML') ,'user.json中检查配置')
+    #     driver.quit()
+    #     return
+    # except Exception as e:
+    #     print(e)
         
     print('登录成功')
     return driver

@@ -5,7 +5,7 @@ import random
 import datetime, threading, requests
 from bs4 import BeautifulSoup
 import os
-import settings
+from lagou import settings
 
 # ------------------------------------------------------文档处理--------------------------------------------------------
 # 写入文档
